@@ -1,47 +1,25 @@
 from bs4 import BeautifulSoup
-import requests
-
-headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36"
-}
-
-url = "http://jeju-s.jje.hs.kr/"
-
-r = requests.get(url, headers=headers)
-
-print(r.raise_for_status)
-
-html = r.text
-
+from urllib.request import urlopen
+#위 두개는 크롤링을 하기위해 사용하는 라이브러리 사이트에 있는 내용을 가져와 우리가 볼 수 있게 만듦.
+html = urlopen("http://jeju-s.jje.hs.kr/jeju-s") #과학고 홈페이지
 soup = BeautifulSoup(html, "html.parser")
-
-context = soup.select(".meal_menu")
-
-print(context)
-
+#container > div.main_content > div.meal_menu > ul > li
+bap = soup.select(".meal_menu ul li")
+print("="*50)
+print( bap)
 print("-"*50)
+menu=""
+for m in bap:
+   print( m.text.strip() ) 
+   menu = m.text
 
-t = context[0].select_one("p")
-print(t.text)
-
-# for e, i in enumerate(lst, 1):
-   
-#     title = i.select_one("h2 a")
-#     print(title.text)
-#     title = i.select_one("p")
-   
-
-#     title = i.select_one("ul li")
-#     print(title.text)
-
-
-
-#     print("--------------------")
-#     singers = i.select("ul li font")
-#     for singer in singers:
-#         print(singer.text)
-
-#     # album = i.select_one(".ellipsis.rank03 > a")
-#     # print(album.text)
-
-#     print()
+print("="*50)
+menu = menu.split(" ")
+print(menu)
+print("="*50)
+i = 0
+for m in menu:
+   i = i + 1
+   if m != "":
+      print(i, m)
+print("="*50)
